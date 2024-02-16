@@ -6,7 +6,7 @@ import java.util.GregorianCalendar;
 /**
  * Month
  */
-public abstract class Month {
+public class Month {
     private static final GregorianCalendar calendar = new GregorianCalendar();
     private final MonthName MONTH_NAME;
     private final int DAYS;
