@@ -1,5 +1,6 @@
 package plannertracker.model;
 
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
 
@@ -11,7 +12,8 @@ public class Month {
     private final MonthName MONTH_NAME;
     private final int DAYS;
     private final Weekday STARTING_WEEKDAY;
-    private Task taskArray[];
+    private ArrayList<Task> taskList;
+    private ArrayList<Highlight> highlightList;
 
     public static  Weekday getStartingWeekday() {
         calendar.set(Calendar.DAY_OF_MONTH, 1);
@@ -23,14 +25,24 @@ public class Month {
         this.MONTH_NAME = MONTH_NAME;
         this.DAYS = DAYS;
         this.STARTING_WEEKDAY = getStartingWeekday();
-        this.taskArray = new Task[1];
+        this.taskList = new ArrayList<>();
+        this.highlightList = new ArrayList<>();
     }
 
-    public Month(MonthName MONTH_NAME, int DAYS, Task taskArray[]) {
+    public Month(MonthName MONTH_NAME, int DAYS, ArrayList<Task> taskList, ArrayList<Highlight> highlightList) {
         this.MONTH_NAME = MONTH_NAME;
         this.DAYS = DAYS;
         this.STARTING_WEEKDAY = getStartingWeekday();
-        this.taskArray = taskArray;
+        this.taskList = taskList;
+        this.highlightList = highlightList;
+    }
+
+    public void addTask(String name) {
+        taskList.add(new Task(this.DAYS, name));
+    }
+
+    public void addHighlight(String highlight) {
+        highlightList.add(new Highlight(this.DAYS, highlight));
     }
 
     public MonthName getMONTH_NAME() {return this.MONTH_NAME;}
@@ -39,5 +51,5 @@ public class Month {
 
     public Weekday getSTARTING_WEEKDAY() {return this.STARTING_WEEKDAY;}
 
-    public Task[] getTaskArray() {return this.taskArray;}
+    public ArrayList<Task> getTaskList() {return this.taskList;}
 }
