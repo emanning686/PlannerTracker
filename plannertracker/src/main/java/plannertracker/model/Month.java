@@ -35,8 +35,8 @@ public class Month {
         taskList.add(new Task(this.DAYS, name));
     }
 
-    public void setHighlight(int day, String message) {
-        highlightArray[day].setMessage(message);
+    public void toggleTaskDate(int index, int date) {
+        taskList.get(index).toggleCompleted(date);
     }
 
     public MonthName getMONTH_NAME() {return this.MONTH_NAME;}
@@ -48,4 +48,6 @@ public class Month {
     public Weekday getSTARTING_WEEKDAY() {return this.STARTING_WEEKDAY;}
 
     public ArrayList<Task> getTaskList() {return this.taskList;}
+
+    public Highlight[] getHighlightArray() {return this.highlightArray;}
 }

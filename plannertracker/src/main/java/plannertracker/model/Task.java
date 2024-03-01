@@ -25,11 +25,11 @@ public class Task {
         this.name = name;
     }
 
-    public void toggleCompleted(int index) {
-        if (completed[index]) {
-            completed[index] = false;
+    public void toggleCompleted(int date) {
+        if (completed[date - 1]) {
+            completed[date - 1] = false;
         } else {
-            completed[index] = true;
+            completed[date - 1] = true;
         }
     }
 }
