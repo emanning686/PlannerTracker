@@ -8,46 +8,42 @@ import java.util.GregorianCalendar;
  * Month
  */
 public class Month {
-    private static final GregorianCalendar calendar = new GregorianCalendar();
+    private static final GregorianCalendar CALENDAR = new GregorianCalendar();
     private final MonthName MONTH_NAME;
     private final int DAYS;
+    private final int YEAR;
     private final Weekday STARTING_WEEKDAY;
     private ArrayList<Task> taskList;
-    private ArrayList<Highlight> highlightList;
+    private Highlight[] highlightArray;
 
     public static  Weekday getStartingWeekday() {
-        calendar.set(Calendar.DAY_OF_MONTH, 1);
-        int dayOfWeek = calendar.get(Calendar.DAY_OF_WEEK);
+        CALENDAR.set(Calendar.DAY_OF_MONTH, 1);
+        int dayOfWeek = CALENDAR.get(Calendar.DAY_OF_WEEK);
         return Weekday.getWeekday(dayOfWeek);
     }
 
-    public Month(MonthName MONTH_NAME, int DAYS) {
+    public Month(MonthName MONTH_NAME, int YEAR, ArrayList<Task> taskList, Highlight[] highlightArray) {
         this.MONTH_NAME = MONTH_NAME;
-        this.DAYS = DAYS;
-        this.STARTING_WEEKDAY = getStartingWeekday();
-        this.taskList = new ArrayList<>();
-        this.highlightList = new ArrayList<>();
-    }
-
-    public Month(MonthName MONTH_NAME, int DAYS, ArrayList<Task> taskList, ArrayList<Highlight> highlightList) {
-        this.MONTH_NAME = MONTH_NAME;
-        this.DAYS = DAYS;
+        this.DAYS = CALENDAR.getActualMaximum(Calendar.DATE);
+        this.YEAR = YEAR;
         this.STARTING_WEEKDAY = getStartingWeekday();
         this.taskList = taskList;
-        this.highlightList = highlightList;
+        this.highlightArray = highlightArray;
     }
 
     public void addTask(String name) {
         taskList.add(new Task(this.DAYS, name));
     }
 
-    public void addHighlight(String highlight) {
-        highlightList.add(new Highlight(this.DAYS, highlight));
+    public void setHighlight(int day, String message) {
+        highlightArray[day].setMessage(message);
     }
 
     public MonthName getMONTH_NAME() {return this.MONTH_NAME;}
 
     public int getDAYS() {return this.DAYS;}
+
+    public int getYEAR() {return this.YEAR;}
 
     public Weekday getSTARTING_WEEKDAY() {return this.STARTING_WEEKDAY;}
 

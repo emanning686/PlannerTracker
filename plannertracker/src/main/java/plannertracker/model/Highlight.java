@@ -4,22 +4,19 @@ package plannertracker.model;
  * Highlight
  */
 public class Highlight {
-    private final int DAYS;
-    private String highlight;
+    private String message;
 
-    public Highlight(int DAYS) {
-        this.DAYS = DAYS;
-        this.highlight = "";
+    public Highlight() {
+        this.message = "";
     }
 
-    public Highlight(int DAYS, String highlight) {
-        this.DAYS = DAYS;
-        this.highlight = highlight;
+    public Highlight(String highlight) {
+        this.message = highlight;
     }
 
-    public String getHighlight() {return this.highlight;}
+    public String getHighlight() {return this.message;}
 
-    public void setHighlight(String highlight) {
-        this.highlight = highlight;
+    public void setMessage(String message) {
+        this.message = message;
     }
 }

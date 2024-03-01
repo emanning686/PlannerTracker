@@ -4,18 +4,15 @@ package plannertracker.model;
  * Task
  */
 public class Task {
-    private final int DAYS;
     private String name;
     private boolean completed[];
 
     public Task(int DAYS, String name) {
-        this.DAYS = DAYS;
         this.name = name;
         this.completed = new boolean[DAYS];
     }
 
-    public Task(int DAYS, String name, boolean completed[]) {
-        this.DAYS = DAYS;
+    public Task(String name, boolean completed[]) {
         this.name = name;
         this.completed = completed;
     }
