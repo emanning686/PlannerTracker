@@ -1,0 +1,7 @@
+plannertracker\model\Weekday.class
+plannertracker\model\MonthName.class
+plannertracker\model\PlannerTracker.class
+plannertracker\model\Task.class
+plannertracker\view\PlannerTrackerGUI.class
+plannertracker\model\Month.class
+plannertracker\model\Highlight.class

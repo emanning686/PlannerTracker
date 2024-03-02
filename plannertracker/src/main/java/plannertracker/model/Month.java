@@ -39,6 +39,10 @@ public class Month {
         taskList.get(index).toggleCompleted(date);
     }
 
+    public void setHighlightMessage(String message, int date) {
+        this.highlightArray[date - 1].setMessage(message);
+    }
+
     public MonthName getMONTH_NAME() {return this.MONTH_NAME;}
 
     public int getDAYS() {return this.DAYS;}
