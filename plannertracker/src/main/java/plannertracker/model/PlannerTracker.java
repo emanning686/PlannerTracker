@@ -19,10 +19,12 @@ public class PlannerTracker {
     private static final String dataDir = "plannertracker/src/main/java/plannertracker/data/";
     private Month currentMonth;
     private ArrayList<String> tasks;
+    private PlannerTrackerObserver observer;
 
-    public PlannerTracker() throws IOException {
+    public PlannerTracker(PlannerTrackerObserver observer) throws IOException {
         this.tasks = new ArrayList<>();
         this.currentMonth = this.reloadMonth();
+        this.observer = observer;
     }
 
     public static MonthName getCurrentMonth() {
@@ -33,9 +35,29 @@ public class PlannerTracker {
         return PlannerTracker.CALENDAR.get(Calendar.YEAR);
     }
 
+    public static int getDaysInMonth() {
+        return PlannerTracker.CALENDAR.getActualMaximum(Calendar.DATE);
+    }
+
+    public Month getMonth() {return this.currentMonth;}
+
+    public ArrayList<String> getTasks() {return this.tasks;}
+
     public void addTask(String name) {
-        currentMonth.addTask(name);
-        this.tasks.add(name);
+        if (!this.tasks.contains(name)) {
+            currentMonth.addTask(name);
+            this.tasks.add(name);
+            this.writeFiles();
+        }
+    }
+
+    public void toggleTaskDate(int index, int date) {
+        this.currentMonth.toggleTaskDate(index, date);
+    }
+
+    public void setHighlightMessage(String message, int date) {
+        this.currentMonth.setHighlightMessage(message, date);
+        this.writeFiles();
     }
 
     public void writeFiles() {
@@ -88,6 +110,7 @@ public class PlannerTracker {
         } catch (IOException ioe) {
             System.out.println(ioe.getMessage());
         }
+        this.observer.updateScene(tasksList, highlightArray);
     }
 
     public Month importMonth(String fileName) {
@@ -104,10 +127,13 @@ public class PlannerTracker {
                 highlightsArray[i] = new Highlight(highlightsStrings[i]);
             }
             String taskNames[] = tasksReader.readNext();
-            for (String task : taskNames) {
-                this.tasks.add(task);
+            if (!taskNames[0].equals("")) {
+                for (String task : taskNames) {
+                    System.out.println(task);
+                    this.tasks.add(task);
+                }
             }
-            int numTasks = taskNames.length;
+            int numTasks = this.tasks.size();
             boolean tasksCompleted[][] = new boolean[numTasks][daysInMonth];
             for (int i = 0; i < daysInMonth; i++) {
                 String completedArray[] = tasksReader.readNext();
@@ -185,17 +211,5 @@ public class PlannerTracker {
 
     public static void main(String[] args) throws IOException {
         // TESTS
-        GregorianCalendar CALENDAR = new GregorianCalendar();
-        PlannerTracker test = new PlannerTracker();
-        System.out.println(PlannerTracker.getCurrentYear());
-        System.out.println(PlannerTracker.getCurrentMonth());
-        System.out.println(CALENDAR.getActualMaximum(Calendar.DATE));
-        test.currentMonth.toggleTaskDate(2, 1);
-        test.currentMonth.toggleTaskDate(2, 2);
-        test.currentMonth.toggleTaskDate(2, 3);
-        test.currentMonth.toggleTaskDate(2, 4);
-        test.currentMonth.toggleTaskDate(2,5);
-        test.currentMonth.toggleTaskDate(2, 6);
-        test.writeFiles();
     }
 }
