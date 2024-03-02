@@ -3,6 +3,7 @@ package plannertracker.view;
 import java.util.ArrayList;
 
 import javafx.application.Application;
+import javafx.geometry.Pos;
 import javafx.geometry.VPos;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
@@ -14,6 +15,8 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.Priority;
 import javafx.scene.layout.Region;
 import javafx.scene.layout.RowConstraints;
+import javafx.scene.paint.Color;
+import javafx.scene.text.Font;
 import javafx.scene.text.TextAlignment;
 import javafx.stage.Stage;
 import plannertracker.model.Highlight;
@@ -28,7 +31,7 @@ public class PlannerTrackerGUI extends Application{
     private int daysInMonth;
     private Button highlightButtonArray[];
     private ScrollPane highlightPaneArray[];
-    private ArrayList<Label> taskLabelArray;
+    private ArrayList<Button> taskButtonLabelArray;
     private ArrayList<Button[]> taskButtonArray;
     private GridPane taskGridPane;
 
@@ -37,6 +40,7 @@ public class PlannerTrackerGUI extends Application{
         plannerTracker = new PlannerTracker(new PlannerTrackerChanger(this));
         daysInMonth = PlannerTracker.getDaysInMonth();
 
+        ScrollPane scrollRoot = new ScrollPane();
         GridPane root = new GridPane();
         GridPane highlightGridPane = new GridPane();
         taskGridPane = new GridPane();
@@ -48,9 +52,24 @@ public class PlannerTrackerGUI extends Application{
             highlightButtonArray[i] = button;
             ScrollPane highlightPane = makeHighlightPane("");
             highlightPaneArray[i] = highlightPane;
-            highlightGridPane.add(button, 0, i);
-            highlightGridPane.add(highlightPane, 1, i);
+            highlightGridPane.add(button, 0, i + 1);
+            highlightGridPane.add(highlightPane, 1, i + 1);
         }
+        Label label = new Label("Highlights");
+
+        ColumnConstraints cc1 = new ColumnConstraints();
+        cc1.setPercentWidth(5.0);
+        cc1.setHgrow(Priority.ALWAYS);
+        highlightGridPane.getColumnConstraints().add(cc1);
+        ColumnConstraints cc2 = new ColumnConstraints();
+        cc2.setPercentWidth(95.0);
+        cc2.setHgrow(Priority.ALWAYS);
+        highlightGridPane.getColumnConstraints().add(cc2);
+
+        label.setFont(new Font("Courier New", 25));
+        label.setTextFill(Color.INDIGO);
+        label.setAlignment(Pos.CENTER);
+        highlightGridPane.add(label, 1, 0);
 
         updateScene();
 
@@ -62,16 +81,20 @@ public class PlannerTrackerGUI extends Application{
         root.add(highlightGridPane, 0, 0);
         root.add(taskGridPane, 1, 0);
 
-        ColumnConstraints cc1 = new ColumnConstraints();
+        scrollRoot.setFitToWidth(true);
+        scrollRoot.setHbarPolicy(ScrollPane.ScrollBarPolicy.NEVER);
+        scrollRoot.setContent(root);
+
+        cc1 = new ColumnConstraints();
         cc1.setPercentWidth(50.0);
         cc1.setHgrow(Priority.ALWAYS);
         root.getColumnConstraints().add(cc1);
-        ColumnConstraints cc2 = new ColumnConstraints();
+        cc2 = new ColumnConstraints();
         cc2.setPercentWidth(50.0);
         cc2.setHgrow(Priority.ALWAYS);
         root.getColumnConstraints().add(cc2);
 
-        Scene scene = new Scene(root, 500, 500);
+        Scene scene = new Scene(scrollRoot, 500, 500);
         primaryStage.setScene(scene);
         primaryStage.setTitle("Planner Tracker");
         primaryStage.show();
@@ -79,6 +102,8 @@ public class PlannerTrackerGUI extends Application{
 
     public void updateScene() {
         taskGridPane.getChildren().clear();
+        taskGridPane.getColumnConstraints().clear();
+        taskGridPane.getRowConstraints().clear();
         for(int row = 0; row < daysInMonth + 1; row++) {
             taskGridPane.getRowConstraints().add( 
                     new RowConstraints(Region.USE_COMPUTED_SIZE, 
@@ -103,12 +128,12 @@ public class PlannerTrackerGUI extends Application{
             highlightPaneArray[i].setContent(label);
         }
 
-        taskLabelArray = new ArrayList<>();
+        taskButtonLabelArray = new ArrayList<>();
         taskButtonArray = new ArrayList<>();
         for (int i = 0; i < plannerTracker.getTasks().size(); i++) {
             String taskName = plannerTracker.getTasks().get(i);
-            Label taskLabel = makeTaskLabel(taskName);
-            taskLabelArray.add(makeTaskLabel(taskName));
+            Button taskLabel = makeTaskLabelButton(taskName);
+            taskButtonLabelArray.add(makeTaskLabelButton(taskName));
             taskGridPane.add(taskLabel, i, 0);
             Button buttonArray[] = new Button[daysInMonth];
             for (int j = 0; j < daysInMonth; j++) {
@@ -117,7 +142,7 @@ public class PlannerTrackerGUI extends Application{
                 if (completed) {
                     taskButton.setText("X");
                 } else {
-                    taskButton.setText("O");
+                    taskButton.setText("");
                 }
                 buttonArray[j] = taskButton;
                 taskGridPane.add(taskButton, i, j + 1);
@@ -136,15 +161,20 @@ public class PlannerTrackerGUI extends Application{
         return HighlightPane;
     }
 
-    private Label makeTaskLabel(String text) {
-        Label label = new Label(text);
+    private Button makeTaskLabelButton(String text) {
+        Button button = new Button(text);
 
-        return label;
+        button.setFont(new Font("Courier New", 15));
+        button.setTextFill(Color.INDIGO);
+        button.setAlignment(Pos.CENTER);
+        button.setOnAction(new TaskButtonLabelHandler(plannerTracker));
+        
+        return button;
     }
 
     private Button makeTaskButton(int index, int date) {
         Button button = new Button();
-        button.setMaxSize(200d, Double.MAX_VALUE);
+        button.setMaxSize(Double.MAX_VALUE, Double.MAX_VALUE);
         button.setOnAction(new TaskButtonHandler(plannerTracker, index, date));
         return button;
     }

@@ -53,6 +53,7 @@ public class PlannerTracker {
 
     public void toggleTaskDate(int index, int date) {
         this.currentMonth.toggleTaskDate(index, date);
+        this.writeFiles();
     }
 
     public void setHighlightMessage(String message, int date) {

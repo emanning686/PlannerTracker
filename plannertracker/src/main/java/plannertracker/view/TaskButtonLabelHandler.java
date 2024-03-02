@@ -10,24 +10,22 @@ import plannertracker.model.PlannerTracker;
 /**
  * HighlightButton
  */
-public class HighlightButtonHandler implements EventHandler<ActionEvent> {
+public class TaskButtonLabelHandler implements EventHandler<ActionEvent> {
     private PlannerTracker plannerTracker;
-    private int date;
     private TextInputDialog td;
 
-    public HighlightButtonHandler(PlannerTracker plannerTracker, int date) {
+    public TaskButtonLabelHandler(PlannerTracker plannerTracker) {
         this.plannerTracker = plannerTracker;
-        this.date = date;
         this.td = new TextInputDialog("");
         this.td.setHeaderText("");
-        this.td.setTitle("New Highlight Entry");
+        this.td.setTitle("New Task Entry");
     }
 
     @Override
     public void handle(ActionEvent event) {
         Optional<String> result = this.td.showAndWait();
         if (result.isPresent() && this.td.getEditor().getText() != "") {
-            plannerTracker.setHighlightMessage(this.td.getEditor().getText(), this.date);
+            plannerTracker.addTask(this.td.getEditor().getText());
         }
     }
 }
