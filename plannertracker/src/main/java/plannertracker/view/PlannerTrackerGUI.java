@@ -36,6 +36,7 @@ public class PlannerTrackerGUI extends Application{
     private ArrayList<Button> taskButtonLabelArray;
     private ArrayList<Button[]> taskButtonArray;
     private GridPane taskGridPane;
+    private HBox taskLabelBox;
 
     @Override
     public void start(Stage primaryStage) throws Exception {
@@ -135,9 +136,9 @@ public class PlannerTrackerGUI extends Application{
             String taskName = plannerTracker.getTasks().get(i);
             Button taskLabel = makeTaskLabelButton(taskName);
             Button remove = makeTaskLabelRemove(i);
-            HBox taskLabelBox = new HBox();
+            taskLabelBox = new HBox();
             taskLabelBox.getChildren().addAll(taskLabel, remove);
-            taskGridPane.add(taskLabel, i, 0);
+            taskGridPane.add(taskLabelBox, i, 0);
             Button buttonArray[] = new Button[daysInMonth];
             for (int j = 0; j < daysInMonth; j++) {
                 boolean completed = taskList.get(i).getCompleted()[j];

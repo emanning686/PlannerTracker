@@ -54,6 +54,7 @@ public class PlannerTracker {
     public void removeTask(int index) {
         if (index < this.tasks.size()) {
             this.currentMonth.removeTask(index);
+            this.tasks.remove(index);
             this.writeFiles();
         }
     }
