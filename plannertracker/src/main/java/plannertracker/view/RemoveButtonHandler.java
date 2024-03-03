@@ -10,7 +10,6 @@ import plannertracker.model.PlannerTracker;
 public class RemoveButtonHandler implements EventHandler<ActionEvent> {
     private PlannerTracker plannerTracker;
     private int index;
-    private int date;
 
     public RemoveButtonHandler(PlannerTracker plannerTracker, int index) {
         this.plannerTracker = plannerTracker;

@@ -12,21 +12,19 @@ public class Month {
     private final MonthName MONTH_NAME;
     private final int DAYS;
     private final int YEAR;
-    private final Weekday STARTING_WEEKDAY;
     private ArrayList<Task> taskList;
     private Highlight[] highlightArray;
 
-    public static  Weekday getStartingWeekday() {
+    public int getStartingWeekday() {
         CALENDAR.set(Calendar.DAY_OF_MONTH, 1);
         int dayOfWeek = CALENDAR.get(Calendar.DAY_OF_WEEK);
-        return Weekday.getWeekday(dayOfWeek);
+        return dayOfWeek;
     }
 
     public Month(MonthName MONTH_NAME, int YEAR, ArrayList<Task> taskList, Highlight[] highlightArray) {
         this.MONTH_NAME = MONTH_NAME;
         this.DAYS = CALENDAR.getActualMaximum(Calendar.DATE);
         this.YEAR = YEAR;
-        this.STARTING_WEEKDAY = getStartingWeekday();
         this.taskList = taskList;
         this.highlightArray = highlightArray;
     }
@@ -52,8 +50,6 @@ public class Month {
     public int getDAYS() {return this.DAYS;}
 
     public int getYEAR() {return this.YEAR;}
-
-    public Weekday getSTARTING_WEEKDAY() {return this.STARTING_WEEKDAY;}
 
     public ArrayList<Task> getTaskList() {return this.taskList;}
 
