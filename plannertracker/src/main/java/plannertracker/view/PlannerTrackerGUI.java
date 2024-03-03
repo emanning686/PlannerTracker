@@ -9,6 +9,8 @@ import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.ScrollPane;
+import javafx.scene.layout.Background;
+import javafx.scene.layout.BackgroundFill;
 import javafx.scene.layout.ColumnConstraints;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
@@ -128,12 +130,13 @@ public class PlannerTrackerGUI extends Application{
             highlightPaneArray[i].setContent(label);
         }
 
-        taskButtonLabelArray = new ArrayList<>();
         taskButtonArray = new ArrayList<>();
         for (int i = 0; i < plannerTracker.getTasks().size(); i++) {
             String taskName = plannerTracker.getTasks().get(i);
             Button taskLabel = makeTaskLabelButton(taskName);
-            taskButtonLabelArray.add(makeTaskLabelButton(taskName));
+            Button remove = makeTaskLabelRemove(i);
+            HBox taskLabelBox = new HBox();
+            taskLabelBox.getChildren().addAll(taskLabel, remove);
             taskGridPane.add(taskLabel, i, 0);
             Button buttonArray[] = new Button[daysInMonth];
             for (int j = 0; j < daysInMonth; j++) {
@@ -168,8 +171,19 @@ public class PlannerTrackerGUI extends Application{
         button.setTextFill(Color.INDIGO);
         button.setAlignment(Pos.CENTER);
         button.setOnAction(new TaskButtonLabelHandler(plannerTracker));
-        
-        return button;
+
+        return button ;
+    }
+
+    private Button makeTaskLabelRemove(int index) {
+        Button remove = new Button("REMOVE");
+
+        remove.setFont(new Font("Courier New", 15));
+        remove.setTextFill(Color.ORANGERED);
+        remove.setAlignment(Pos.CENTER);
+        remove.setOnAction(new RemoveButtonHandler(plannerTracker, index));
+
+        return remove;
     }
 
     private Button makeTaskButton(int index, int date) {

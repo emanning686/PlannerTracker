@@ -45,8 +45,15 @@ public class PlannerTracker {
 
     public void addTask(String name) {
         if (!this.tasks.contains(name)) {
-            currentMonth.addTask(name);
+            this.currentMonth.addTask(name);
             this.tasks.add(name);
+            this.writeFiles();
+        }
+    }
+
+    public void removeTask(int index) {
+        if (index < this.tasks.size()) {
+            this.currentMonth.removeTask(index);
             this.writeFiles();
         }
     }

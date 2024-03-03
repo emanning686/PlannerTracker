@@ -35,6 +35,10 @@ public class Month {
         taskList.add(new Task(this.DAYS, name));
     }
 
+    public void removeTask(int index) {
+        this.taskList.remove(index);
+    }
+
     public void toggleTaskDate(int index, int date) {
         taskList.get(index).toggleCompleted(date);
     }
