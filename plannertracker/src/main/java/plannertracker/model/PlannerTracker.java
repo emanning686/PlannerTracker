@@ -142,7 +142,6 @@ public class PlannerTracker {
             String taskNames[] = tasksReader.readNext();
             if (!taskNames[0].equals("")) {
                 for (String task : taskNames) {
-                    System.out.println(task);
                     this.tasks.add(task);
                 }
             }
