@@ -60,7 +60,7 @@ public class PlannerTrackerGUI extends Application{
             highlightGridPane.add(button, 0, i + 1);
             highlightGridPane.add(highlightPane, 1, i + 1);
         }
-        Label label = new Label("Highlights");
+        Label label = new Label(PlannerTracker.getCurrentMonth().toString());
 
         ColumnConstraints cc1 = new ColumnConstraints();
         cc1.setPercentWidth(5.0);
@@ -101,7 +101,7 @@ public class PlannerTrackerGUI extends Application{
         cc2.setHgrow(Priority.ALWAYS);
         root.getColumnConstraints().add(cc2);
 
-        Scene scene = new Scene(scrollRoot, 750, 750);
+        Scene scene = new Scene(scrollRoot, 1000, 1000);
         primaryStage.setScene(scene);
         primaryStage.setTitle("Planner Tracker");
         primaryStage.show();
@@ -214,6 +214,9 @@ public class PlannerTrackerGUI extends Application{
         Button button = new Button(weekdays[(plannerTracker.getStartingWeekday() + date - 2) % 7] + " " + Integer.toString(date));
         button.setMaxSize(Double.MAX_VALUE, Double.MAX_VALUE);
         button.setOnAction(new HighlightButtonHandler(plannerTracker, date));
+        if (date == plannerTracker.getDayOfMonth()) {
+            button.setTextFill(Color.DARKTURQUOISE);
+        }
         
         return button;
     }

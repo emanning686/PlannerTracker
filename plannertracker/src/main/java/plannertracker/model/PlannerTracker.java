@@ -39,6 +39,10 @@ public class PlannerTracker {
         return PlannerTracker.CALENDAR.getActualMaximum(Calendar.DATE);
     }
 
+    public int getDayOfMonth() {
+        return PlannerTracker.CALENDAR.get(Calendar.DAY_OF_MONTH);
+    }
+
     public int getStartingWeekday() {
         return this.currentMonth.getStartingWeekday();
     }
